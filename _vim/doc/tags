@@ -1,0 +1,10 @@
+'g:todo_existing_date'	todo.txt	/*'g:todo_existing_date'*
+'g:todo_load_python'	todo.txt	/*'g:todo_load_python'*
+todo-commands	todo.txt	/*todo-commands*
+todo-commands-date	todo.txt	/*todo-commands-date*
+todo-commands-done	todo.txt	/*todo-commands-done*
+todo-commands-priority	todo.txt	/*todo-commands-priority*
+todo-commands-sorting	todo.txt	/*todo-commands-sorting*
+todo-contents	todo.txt	/*todo-contents*
+todo-options	todo.txt	/*todo-options*
+todo.txt	todo.txt	/*todo.txt*

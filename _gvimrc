@@ -1,0 +1,18 @@
+"Enable powerline like fonts for airline when in gui
+"let g:airline_powerline_fonts = 1
+if has('win32') || has('win64')
+	"set guifont=Droid_Sans_Mono_for_Powerline:h11
+	set guifont=Inconsolata_NF:h14
+else
+	set guifont =Droid\ Sans\ Mono\ for\ Powerline\ 11
+endif
+
+syntax enable
+set background=light
+"colorscheme base16-default-light
+"colorscheme one
+"let g:pencil_higher_contrast_ui = 1
+colorscheme pencil
+
+"hide the toolbar
+set guioptions-=T 
