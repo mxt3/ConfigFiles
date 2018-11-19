@@ -42,6 +42,10 @@ makeLinks () {
 	fi
 }
 
+#Vundle is a submodule
+git submodule init
+git submodule update
+
 # geFiles stores the results in $result variable
 getFiles
 pwd
