@@ -1,3 +1,7 @@
 # Vim config folder
-_vim/bundle/
+_vim/bundle/*
 _vim/viewdir/
+
+#Vundle should be included
+#it is declared as submodule
+!_vim/bundle/Vundle.vim/
