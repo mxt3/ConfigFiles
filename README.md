@@ -14,8 +14,10 @@ The .vim\ configuration folder is stored under the folder _vim\
 
 Linux Install
 -------------
-Bla bla script
+Run the scrip setupSymLinks.sh from the root directory of this repo. It asks for
+permission before overwitting existing files.
 
 Windows Install
 -------------
+TODO: make script
 Bla bla script
