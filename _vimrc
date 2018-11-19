@@ -11,7 +11,7 @@ filetype off                  " required
 set encoding=utf-8
 
 " set the runtime path to include vundle and initialize
-set rtp+=~/.vim/bundle/vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where vundle should install plugins
 "call vundle#begin('~/some/path/here')
