@@ -417,16 +417,20 @@ nnoremap <leader>f :ALEFix<CR>
 "Enable 24-bit terminal colors
 "Works on Windows 10 creators update and later
 "if vim terminal app is compiled with vtp option
-set termguicolors
+if ($COLORTERM == 'truecolor') || ($COLORTERM == '24bit') || has('vcon')
+	set termguicolors
+	"Theme for terminal != gui -> defined in .gvimrc
+	colorscheme base16-gruvbox-dark-hard
+else
+	"fall back on 256 color theme
+	colorscheme desert256
+endif
 
-"Theme for terminal != gui -> defined in .gvimrc
 "Ayu Theme settings
 " let ayucolor="dark"
 " colorscheme ayu
 "colorscheme ayu
 "set background=dark
-colorscheme base16-gruvbox-dark-hard
 
 "enable syntax highligting in terminal
 syntax on
-
