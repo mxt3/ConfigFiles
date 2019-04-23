@@ -25,6 +25,7 @@ source ~/ConfigFiles/setMyPrompt.sh
 # GNU Tools settings
 #--------------------
 
-* Less
-* -i == ignore case when no case in search query
-export LESS='-i'
+# Less
+# i == ignore case when no case in search query
+# R == pass escape characters, so terminal can interpret (e.g. git diff)
+export LESS='iR'
