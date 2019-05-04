@@ -298,7 +298,7 @@ let g:ycm_min_num_of_chars_for_completion = 99
 let g:ycm_global_ycm_extra_conf = '~\.vim\global.ycm_extra_conf.py'
 
 "Hide the preview automatically
-"let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_autoclose_preview_window_after_completion=1
 
 "--------------------------------
 " A.L.E. Config
@@ -310,7 +310,7 @@ let g:ale_fixers = {
 			\ 'python': ['autopep8', 'remove_trailing_lines'],
 			\ }
 
-"set ale flake8 warnings into errors, as this are all styel guide things
+"set ale flake8 errors into warnings, as this are all styel guide things
 let g:ale_type_map = {'flake8': {'ES': 'WS', 'E': 'W'}}
 "let g:ale_type_map.new_entry = bla
 
@@ -409,6 +409,9 @@ nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "map ALE Fix
 nnoremap <leader>f :ALEFix<CR>
 
+"map leader + B to togle buffers
+nnoremap <leader>b :bnext<CR>
+
 
 "--------------------------------
 " Aesthetics
@@ -417,16 +420,20 @@ nnoremap <leader>f :ALEFix<CR>
 "Enable 24-bit terminal colors
 "Works on Windows 10 creators update and later
 "if vim terminal app is compiled with vtp option
-set termguicolors
+if ($COLORTERM == 'truecolor') || ($COLORTERM == '24bit') || has('vcon')
+	set termguicolors
+	"Theme for terminal != gui -> defined in .gvimrc
+	colorscheme base16-gruvbox-dark-hard
+else
+	"fall back on 256 color theme
+	colorscheme desert256
+endif
 
-"Theme for terminal != gui -> defined in .gvimrc
 "Ayu Theme settings
 " let ayucolor="dark"
 " colorscheme ayu
 "colorscheme ayu
 "set background=dark
-colorscheme base16-gruvbox-dark-hard
 
 "enable syntax highligting in terminal
 syntax on
-

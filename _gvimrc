@@ -4,7 +4,7 @@ if has('win32') || has('win64')
 	"set guifont=Droid_Sans_Mono_for_Powerline:h11
 	set guifont=Inconsolata_NF:h14
 else
-	set guifont =Droid\ Sans\ Mono\ for\ Powerline\ 11
+	set guifont=Inconsolata\ Nerd\ Font\ Medium\ 14
 endif
 
 syntax enable

@@ -1,0 +1,4 @@
+#readline config. Readline is use by bash.
+
+$include /etc/inputrc
+set completion-ignore-case On

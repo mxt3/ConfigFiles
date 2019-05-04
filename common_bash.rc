@@ -1,0 +1,31 @@
+# common bashrc settings that I use on all my systems
+# Do not add settings specific to a certain machine/workplace
+
+# TODO: setup script should automatically add source command for this file to
+# .bash_rc when installing the ConfigFiles.
+
+#--------------------
+# Aliases
+#--------------------
+
+# we want color
+alias ls="ls --color=auto -F"
+alias grep="grep --color=auto"
+
+# easily resource bash
+alias sbrc='source ~/.bashrc'
+alias sbp='source ~/.bash_profile'
+
+#--------------------
+# Nice Prompt
+#--------------------
+source ~/ConfigFiles/setMyPrompt.sh
+
+#--------------------
+# GNU Tools settings
+#--------------------
+
+# Less
+# i == ignore case when no case in search query
+# R == pass escape characters, so terminal can interpret (e.g. git diff)
+export LESS='iR'
