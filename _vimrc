@@ -53,12 +53,14 @@ Plugin 'moll/vim-bbye'
 
 "fuzzy finders
 Plugin 'ctrlpvim/ctrlp.vim'
-"use a fast external lister to improve speed of ctrlp:
-"(from
-"https://bluz71.github.io/2017/10/26/turbocharge-the-ctrlp-vim-plugin.html)
-let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
-"turn of caching with this fast lister
-let g:ctrlp_use_caching = 0
+if executable('fd')
+	"use a fast external lister to improve speed of ctrlp:
+	"(from
+	"https://bluz71.github.io/2017/10/26/turbocharge-the-ctrlp-vim-plugin.html)
+	let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
+	"turn of caching with this fast lister
+	let g:ctrlp_use_caching = 0
+endif
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 
 "fzf: needs binary on path and plugin asside from this one
@@ -391,6 +393,11 @@ function ProjectExplNetrw()
 	endif
 endfunction
 
+" Make netrw buffer close if you want
+" Hint: easy access to netrw by pressing '-' in any buffer
+autocmd FileType netrw setl bufhidden=wipe
+
+
 "--------------------------------
 " Leader Key maps
 "--------------------------------
@@ -423,7 +430,11 @@ nnoremap <leader>b :bnext<CR>
 if ($COLORTERM == 'truecolor') || ($COLORTERM == '24bit') || has('vcon')
 	set termguicolors
 	"Theme for terminal != gui -> defined in .gvimrc
-	colorscheme base16-gruvbox-dark-hard
+	" colorscheme base16-gruvbox-dark-hard
+	colorscheme desert256
+	if !has("gui_running")
+		let g:airline_theme='base16_default'
+	endif
 else
 	"fall back on 256 color theme
 	colorscheme desert256
