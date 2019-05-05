@@ -1,0 +1,7 @@
+# Each line describes a wildcard pattern of a filename that should not be
+# symlinked to the home directory on Windows. When specifying the file/directory
+# names, leave the starting '_'. This is assumed.
+
+inputrc
+tmux*
+fonts
