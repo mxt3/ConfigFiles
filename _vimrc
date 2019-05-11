@@ -64,15 +64,15 @@ endif
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 
 "fzf: needs binary on path and plugin asside from this one
-Plugin 'junegunn/fzf.vim'
+" Plugin 'junegunn/fzf.vim'
 
 "async syntastic: ale
-Plugin 'w0rp/ale'
+" Plugin 'w0rp/ale'
 
 Plugin 'rhysd/vim-grammarous'
 
-Plugin 'ayu-theme/ayu-vim'
-"Plugin 'rakr/vim-one'
+" Plugin 'ayu-theme/ayu-vim'
+" Plugin 'rakr/vim-one'
 Plugin 'reedes/vim-colors-pencil'
 
 " all of your plugins must be added before the following line
@@ -142,8 +142,10 @@ nnoremap <CR> :noh<CR><CR>
 " -----------------
 " Vim completion behavior
 " -----------------
-"Only insert longest common text, do not add more
-set completeopt=longest,menuone,preview
+"Do not instert text when pressing the completetion key (noinstert), so we can
+"type further to narrow down the completetion menu
+"NOTE: the option 'longest' is not compatible with youcompleteme
+set completeopt=menuone,preview,noinsert
 
 " -----------------
 " Folding options
