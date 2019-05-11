@@ -2,7 +2,7 @@
 # not all unix tools work on Windows. A list with exceptions to be ignored, is
 # read from the file ExceptOnWindows.txt
 #
-# Run this from it's root directory
+# Run this from its root directory
 
 # get files & folder to make links for
 $lnk_trgts_unfiltered = (Get-ChildItem . | where { $_.Name -like '_*' }).Name
