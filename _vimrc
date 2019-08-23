@@ -67,7 +67,7 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 " Plugin 'junegunn/fzf.vim'
 
 "async syntastic: ale
-" Plugin 'w0rp/ale'
+Plugin 'w0rp/ale'
 
 Plugin 'rhysd/vim-grammarous'
 
