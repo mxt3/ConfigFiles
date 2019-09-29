@@ -12,3 +12,6 @@ _vim/nsr.skip
 
 #Vim swp files
 *.swp
+
+#mypy cache
+*/.mypy_cache/
