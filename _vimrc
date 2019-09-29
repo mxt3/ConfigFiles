@@ -362,6 +362,11 @@ nnoremap <silent> <Leader>t :TagbarToggle<CR>
 let g:netrw_hide = 1
 let g:netrw_liststyle = 0
 
+" Use xdg open-file method when hitting x in netrew or gx on a
+" path/url in a file. On linux only.
+if has('unix') || has('macunix')
+	let g:netrw_browsex_viewer= "xdg-open"
+endif
 
 "Function to set-up a project explorer like sidesplit
 function ProjectExplNetrw()
@@ -416,9 +421,11 @@ nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "map ALE Fix
 nnoremap <leader>f :ALEFix<CR>
 
-"map leader + B to togle buffers
-nnoremap <leader>b :bnext<CR>
+"map leader + S to toggle buffers: use alternate buffer
+nnoremap <leader>s :b#<CR>
 
+"map key to fuzzy find buffer using controlp
+nnoremap <leader>B :CtrlPBuffer<CR>
 
 "--------------------------------
 " Aesthetics
