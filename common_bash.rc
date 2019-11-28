@@ -16,6 +16,11 @@ alias grep="grep --color=auto"
 alias sbrc='source ~/.bashrc'
 alias sbp='source ~/.bash_profile'
 
+# ipython with pylab
+alias ipy3pl='ipython3 --pylab'
+alias ipy2pl='ipython2 --pylab'
+alias ipypl='ipy3pl'
+
 #--------------------
 # Nice Prompt
 #--------------------
