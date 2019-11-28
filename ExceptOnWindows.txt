@@ -5,3 +5,4 @@
 inputrc
 tmux*
 fonts
+vnc

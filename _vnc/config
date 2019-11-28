@@ -1,0 +1,18 @@
+## Supported server options to pass to vncserver upon invocation can be listed
+## in this file. See the following manpages for more: vncserver(1) Xvnc(1).
+## Several common ones are shown below. Uncomment and modify to your liking.
+##
+# securitytypes=vncauth,tlsvnc
+# NO idea what this does ....
+# desktop=sandbox
+# To only enable connections originating from same machine. Usefull for tunneling over ssh:
+# localhost
+# For configuring multiple access to server:
+# alwaysshared
+
+
+# name=ESAT_VNC
+# we prefer tlsvnc, but not al clients support this
+securitytypes=tlsvnc,vncauth
+geometry=1920x1080
+
