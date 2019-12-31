@@ -14,6 +14,14 @@ symlinks, the underscore are automatically replaced by dots.
 ### Vim
 The .vim\ configuration folder is stored under the folder _vim\
 
+Checking for updates
+--------------------
+To update your settings with the git repo version, do as follows. 
+Go to the ConfigFiles directories directory, and do git fetch or git pull
+(the latter if you want to immeadiately merge new remote settings)
+
+You can crontab this to make notifications or so. Or modify you bashrc.
+
 Linux Install
 -------------
 Run the script setupSymLinks.sh from the root directory of this repo. It asks for
