@@ -3,4 +3,4 @@
 set breakindent
 
 "Always use max textwidth
-set textwidth=80
+set textwidth=70
