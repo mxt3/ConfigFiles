@@ -167,7 +167,8 @@ linkConfigDir() {
 		mkdir -p "$HOME$targetDir"
 
 		linkConfigDir "$currDir/%$dr" false
-		unset 'mirrorDirStack[-1]'
+		# unset 'mirrorDirStack[-1]'
+		unset 'mirrorDirStack[${#mirrorDirStack[@]}-1]'
 	done
 	echo "Exiting $currDir"
 }
