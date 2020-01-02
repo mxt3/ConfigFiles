@@ -11,8 +11,24 @@ The dotfiles that have to be copied to the home directory are free files
 in this repo starting with an underscore _ instead of a dot. When creating
 symlinks, the underscore are automatically replaced by dots.
 
-### Vim
-The .vim\ configuration folder is stored under the folder _vim\
+Besides directly symlinking, the tool can also 'mirror' a directory structure
+by prefixing directories with '%'. This is also removed, just like the _ 
+However, no period is used for the equivalent directory in the home directory.
+This is used for mirorring a directory structure, whithout tracking every file
+in the directory. You can selectevely make the directories.
+
+'%' prefixes work in recursively. Inside mirrored folders, no prefix _ is
+necessary for symlinking files. All child files and folders, except those prefixed by
+%, are symlinked.
+
+
+Checking for updates
+--------------------
+To update your settings with the git repo version, do as follows. 
+Go to the ConfigFiles directories directory, and do git fetch or git pull
+(the latter if you want to immeadiately merge new remote settings)
+
+You can crontab this to make notifications or so. Or modify you bashrc.
 
 Linux Install
 -------------
