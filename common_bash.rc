@@ -21,6 +21,9 @@ alias ipy3pl='ipython3 --pylab'
 alias ipy2pl='ipython2 --pylab'
 alias ipypl='ipy3pl'
 
+# open file explorer in current dir
+alias explore='nautilus . &> /dev/null &'
+
 #--------------------
 # Nice Prompt
 #--------------------
