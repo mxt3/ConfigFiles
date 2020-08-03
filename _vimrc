@@ -78,6 +78,9 @@ Plugin 'rhysd/vim-grammarous'
 " Plugin 'rakr/vim-one'
 Plugin 'reedes/vim-colors-pencil'
 
+" aliases in the command line
+Plugin 'Konfekt/vim-alias'
+
 " all of your plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -149,6 +152,9 @@ nnoremap <CR> :noh<CR><CR>
 "type further to narrow down the completetion menu
 "NOTE: the option 'longest' is not compatible with youcompleteme
 set completeopt=menuone,preview,noinsert
+" Make pressing space accepting suggestion: Control - Y(es) = accept
+inoremap <expr> <Space> pumvisible() ? "\<C-y>" : "\<Space>"
+" Tab and shift tap scroll due to youcompleteme
 
 " -----------------
 " Folding options
@@ -440,6 +446,14 @@ nnoremap <leader>s :b#<CR>
 
 "map key to fuzzy find buffer using controlp
 nnoremap <leader>B :CtrlPBuffer<CR>
+
+
+"--------------------------------
+" Vim Alias Plugin Aliases
+"--------------------------------
+
+" See ~/.vim/after/plugin/alias.vim
+
 
 "--------------------------------
 " Aesthetics
