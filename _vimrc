@@ -83,7 +83,7 @@ Plugin 'Konfekt/vim-alias'
 
 " all of your plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on    " required
+filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
 " to ignore plugin indent changes, instead use:
 "filetype plugin on
 "
