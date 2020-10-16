@@ -37,3 +37,21 @@ source ~/ConfigFiles/setMyPrompt.sh
 # i == ignore case when no case in search query
 # R == pass escape characters, so terminal can interpret (e.g. git diff)
 export LESS='iR'
+
+
+#----------------------------------------
+# Make sure vte.sh is sourced
+#----------------------------------------
+# This remembers the cd directory when opening
+# a second tab (and more?)
+# vte.sh does this by modifying $PROMPT_COMMAND.
+# create a wrapper to preserve current $PROMPT_COMMAND
+
+# this modifies $PROMPT_COMMAND:
+source /etc/profile.d/vte.sh
+
+__prompt_command_wrap() {
+	__vte_prompt_command
+	my_prompt_command_func
+}
+export PROMPT_COMMAND=__prompt_command_wrap
