@@ -28,8 +28,9 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'l9'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'dawikur/base16-vim-airline-themes'
 "Plugin 'altercation/vim-colors-solarized'
-Plugin 'valloric/youcompleteme'
+" Plugin 'valloric/youcompleteme'
 Plugin 'chriskempson/base16-vim'
 "Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-repeat' " support dot-operator for vim-surround and others
@@ -55,7 +56,14 @@ Plugin 'moll/vim-bbye'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
 "fuzzy finders
-Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'ctrlpvim/ctrlp.vim'	"Not async
+" Plugin 'Yggdroot/LeaderF'		"Intially slow
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+
+
+Plugin 'jlanzarotta/bufexplorer'
+
 if executable('fd')
 	"use a fast external lister to improve speed of ctrlp:
 	"(from
@@ -104,10 +112,6 @@ filetype plugin indent on    " required
 "terminal where you invoke vim
 "cd ~
 
-"Mapping of control s to save
-"nmap <c-s> :w<CR>
-"imap <c-s> <ESC>:w<CR>a
-
 "Set line numbers on by default
 set nu
 " to set relative numbers: set rnu
@@ -119,10 +123,6 @@ set rnu
 "(necessairy also for delimitMata its exapnd_cr feature
 set backspace=start,indent,eol
 
-"For easier tag navigation, remap g C^] to g] i.e. replace command of show tag
-"list always to go immeadiately to tag if there is only one tag, otherwise
-"show list
-nnoremap g$ g<C-]>
 
 "allow hidden buffers, (usefull for tag jumping when not having saved yet)
 " stil warns on pending changes when quiting
@@ -132,14 +132,18 @@ set hidden
 "verison). Use :X to save with encryption, see :help encryption
 set cm=blowfish2
 
+
+if has('win32') || has('win64')
+	"scroll (split)window under cursor, even if it has no focus
+	set scrollfocus
+endif
+
 " -------------------------
 " Search settings, see help
 " -------------------------
 set incsearch
 set ignorecase smartcase
 set hls
-"Press enter to remove current highlihgting (and send enter again) 
-nnoremap <CR> :noh<CR><CR>
 
 
 " -----------------
@@ -148,7 +152,7 @@ nnoremap <CR> :noh<CR><CR>
 "Do not instert text when pressing the completetion key (noinstert), so we can
 "type further to narrow down the completetion menu
 "NOTE: the option 'longest' is not compatible with youcompleteme
-set completeopt=menuone,preview,noinsert
+set completeopt=menuone,preview,noinsert,longest
 
 " -----------------
 " Folding options
@@ -224,7 +228,6 @@ set wrap lbr
 
 "Toggle with \w between moving between rapped lines and moving between normal
 "lines
-noremap <silent> <Leader>w :call ToggleWrapMovement()<CR>
 let wrapMotion = 0
 function ToggleWrapMovement()
     if g:wrapMotion
@@ -256,12 +259,6 @@ set autoread
 "Enable hidden buffers
 set hidden
 
-" Easier navigation to other window splits
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
 " Nice symbols for showing withespace characters when
 " using :set list
 set listchars=eol:¬,tab:»\ 
@@ -282,13 +279,6 @@ set listchars=eol:¬,tab:»\
 "-------------------------------------
 " YouCompleMe Keymappings & settings
 " ------------------------------------
-
-" First try definiton (only works in same translation unit), then definition.
-map <F2> :YcmCompleter GoTo<CR>
-" Go to the header that includes declaration
-map <F3> :YcmCompleter GoToInclude<CR>
-" Same as Goto but do not recompile (fast but inaccurate)
-map <F4> :YcmCompleter GoToImprecise<CR>
 
 "prevent enabling for every file
 "Add if needed, done to ensure perf. at startup
@@ -351,8 +341,6 @@ let g:syntastic_check_on_wq = 0
 " Tagbar config
 "--------------------------------
 
-"Bind leader key to toggle
-nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
 "--------------------------------
 " vim-cpp-enhanced-highlight settings
@@ -418,30 +406,6 @@ autocmd FileType netrw setl bufhidden=wipe
 
 
 "--------------------------------
-" Leader Key maps
-"--------------------------------
-
-"map key to vim function setting up a buffer with project
-"explorer like view starting of the current directory
-"
-noremap <silent> <Leader>p :call ProjectExplNetrw()<CR>
-
-"map BBye to close buffer
-noremap <silent> <Leader>q :Bdelete<CR>
-
-"map YCM GoTo
-nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-"map ALE Fix
-nnoremap <leader>f :ALEFix<CR>
-
-"map leader + S to toggle buffers: use alternate buffer
-nnoremap <leader>s :b#<CR>
-
-"map key to fuzzy find buffer using controlp
-nnoremap <leader>B :CtrlPBuffer<CR>
-
-"--------------------------------
 " Aesthetics
 "--------------------------------
 
@@ -461,11 +425,38 @@ else
 	colorscheme desert256
 endif
 
-"Ayu Theme settings
-" let ayucolor="dark"
-" colorscheme ayu
-"colorscheme ayu
-"set background=dark
-
 "enable syntax highligting in terminal
 syntax on
+
+"Fix netrw leaving buffers open after closing it (with e.g Ctrl-^)
+" autocmd FileType netrw setl bufhidden=delete
+let g:netrw_fastbrowse=0
+
+" Plugin settings {{{1
+" ------------------------------
+"
+" fzf and fzf.vim 
+" ----------------
+" See https://raw.githubusercontent.com/junegunn/fzf/master/README-VIM.md 
+" and https://raw.githubusercontent.com/junegunn/fzf.vim/master/README.md
+
+" Default behavior
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+if has('win32') || has('win64')
+	let g:fzf_history_dir = '$LOCALAPPDATA/fzf_history'
+else
+	let g:fzf_history_dir = '~/.local/share/fzf_history'
+endif
+
+" Popup for file browser with preview
+let fzf_preview_cmd=''
+if executable('bat')
+	let fzf_preview_cmd='bat --color=always --style=numbers --line-range :500'
+elseif has('win32') || has('win64')
+	let fzf_preview_cmd='type'
+else
+	let fzf_preview_cmd='cat'
+endif
+command! -bang FilesPreview call fzf#run(fzf#wrap({
+			\ 'window': { 'width': 0.9, 'height': 0.7 },
+			\ 'options': '--preview "' . fzf_preview_cmd . ' {}"' }, <bang>0 ))
