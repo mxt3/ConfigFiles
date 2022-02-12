@@ -120,6 +120,10 @@ set hidden
 "verison). Use :X to save with encryption, see :help encryption
 set cm=blowfish2
 
+"Enable mouse in the terminal. Putty and xterm-(compatible) terminals support
+"this
+set mouse=a
+
 " -------------------------
 " Search settings, see help
 " -------------------------
