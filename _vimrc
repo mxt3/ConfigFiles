@@ -1,6 +1,9 @@
-"Add .vim and other unix like to runtimepath on windows so .vim files 
-"from there are recognized
-let &runtimepath.=",$HOME/.vim,$HOME/.vim/after"   
+
+if has('win32') || has('win64')
+	"Add .vim and other unix like to runtimepath on windows so .vim files
+	"from there are recognized
+	let &runtimepath.=",$HOME/.vim,$HOME/.vim/after"
+endif
 
 " -------------------------
 " vundle setup and plugins
@@ -87,29 +90,11 @@ filetype plugin indent on    " required, This enable flile type plugins in the f
 " to ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" brief help
-" :pluginlist       - lists configured plugins
-" :plugininstall    - installs plugins; append `!` to update or just :pluginupdate " :pluginsearch foo - searches for foo; append `!` to refresh local cache
-" :pluginclean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for faq
-" put your non-plugin stuff after this line
-
 " end vundle
 
 " -------------------------
 " Misc native vim settings
 " -------------------------
-
-"Start in Home directory (and not program files on windows)
-"Much better is to set the working directotory through the shortcut
-"becasue that way the working directory is the same as the in the
-"terminal where you invoke vim
-"cd ~
-
-"Mapping of control s to save
-"nmap <c-s> :w<CR>
-"imap <c-s> <ESC>:w<CR>a
 
 "Set line numbers on by default
 set nu
@@ -179,6 +164,10 @@ set shiftwidth=4
 "Do not replace tabs by space (default behaviour)
 set noexpandtab
 
+"Continue indentation automatically globally (does not interfere with filetype
+"indentation)
+set autoindent
+
 " from http://vimcasts.org/episodes/tabs-and-spaces/
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -209,14 +198,8 @@ function! SummarizeTabs()
 endfunction
 
 
-"Continue indentation automatically globally (does not interfere with filetype
-"indentation)
-set autoindent
-
-if has("autocmd") "if vim is compiled wiht autocmd option
+if has("autocmd") "if vim is compiled with autocmd option
   " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent on
 endif
