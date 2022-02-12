@@ -47,11 +47,19 @@ export LESS='iR'
 # vte.sh does this by modifying $PROMPT_COMMAND.
 # create a wrapper to preserve current $PROMPT_COMMAND
 
-# this modifies $PROMPT_COMMAND:
-source /etc/profile.d/vte.sh
-
 __prompt_command_wrap() {
 	__vte_prompt_command
 	my_prompt_command_func
 }
-export PROMPT_COMMAND=__prompt_command_wrap
+
+if [ -f /etc/profile.d/vte.sh ] ; then
+	# this modifies $PROMPT_COMMAND:
+	source /etc/profile.d/vte.sh
+
+	# the script above may not load vte prompt command
+	# if the terminal is not vte compatible
+	type_res="$( type -t __vte_prompt_command)"
+	if [[ -n $type_res ]] && [[ $type_res = function ]] ; then
+		export PROMPT_COMMAND=__prompt_command_wrap
+	fi
+fi
