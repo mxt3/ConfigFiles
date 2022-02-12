@@ -483,3 +483,28 @@ endif
 
 "enable syntax highligting in terminal
 syntax on
+
+"--------------------------------
+" Functions for misc utility
+"--------------------------------
+"TODO: move to somewhere else??
+
+" redirect the output of a Vim or external command into a scratch buffer
+" From : https://vi.stackexchange.com/questions/8378/dump-the-output-of-internal-vim-command-into-buffer
+" Works well with ex commands. E.g. :Redir g/String/p
+" akin to built-in redir (saves to register)
+function! Redir(cmd)
+  if a:cmd =~ '^!'
+    execute "let output = system('" . substitute(a:cmd, '^!', '', '') . "')"
+  else
+    redir => output
+    execute a:cmd
+    redir END
+  endif
+  new " Present new buffers is split window
+  setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+  call setline(1, split(output, "\n"))
+  put! = a:cmd
+  put = '----'
+endfunction
+command! -nargs=1 Redir silent call Redir(<f-args>)
