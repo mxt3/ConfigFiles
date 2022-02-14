@@ -10,6 +10,9 @@ _vim/nsr.skip
 #it is declared as submodule
 !_vim/bundle/Vundle.vim/
 
+#vim saved sessions
+_vim/session/*
+
 #Vim swp files
 *.swp
 
