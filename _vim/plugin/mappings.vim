@@ -50,9 +50,6 @@ nmap gD <Plug>(ale_go_to_definition)
 
 " buffer managment (Bbye)
 " -----------------------
-"
-"map ALE Fix
-" nnoremap <leader>f :ALEFix<CR>
 
 "map Bbye to close buffers without closing the window
 noremap <silent> <Leader>q :Bdelete<CR>
