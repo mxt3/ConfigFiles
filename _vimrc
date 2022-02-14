@@ -84,8 +84,10 @@ Plugin 'jlanzarotta/bufexplorer'
 "fzf: needs binary on path and plugin asside from this one
 " Plugin 'junegunn/fzf.vim'
 
-"async syntastic: ale
-Plugin 'dense-analysis/ale'
+if v:version >= 800
+	"async syntastic: ale
+	Plugin 'dense-analysis/ale'
+endif
 
 " Plugin 'rhysd/vim-grammarous'
 
@@ -491,7 +493,11 @@ command! -bang FilesPreview call fzf#run(fzf#wrap({
 " configure vim :mksession
 " compared to default: remove 'options' and add skiprtp
 " see 
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,terminal,skiprtp,resize
+if v:version >= 800
+	set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,terminal,skiprtp,resize
+else
+	set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,skiprtp,resize
+endif
 
 "I also use .vim on windows
 let g:startify_session_dir = '~/.vim/session'
