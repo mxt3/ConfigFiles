@@ -2,7 +2,15 @@
 "let g:airline_powerline_fonts = 1
 if has('win32') || has('win64')
 	"set guifont=Droid_Sans_Mono_for_Powerline:h11
-	set guifont=Inconsolata_NF:h14
+	" set guifont=Inconsolata_NF:h12
+	set guifont=UbuntuMono_NF:h12
+
+	"enable directx font rendering, if capable
+	" if has('directx')
+	" 	set renderoptions=type:directx,
+	" 		\renmode:4,taamode:1,level:0.5
+	" end
+	
 else
 	set guifont=Inconsolata\ Nerd\ Font\ Medium\ 14
 endif
@@ -12,6 +20,10 @@ set background=light
 "colorscheme one
 "let g:pencil_higher_contrast_ui = 1
 colorscheme pencil
+" colorscheme base16-gruvbox-dark-medium
 
 "hide the toolbar
 set guioptions-=T 
+
+"window size
+set lines=36 columns=100
