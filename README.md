@@ -17,7 +17,7 @@ However, no period is used for the equivalent directory in the home directory.
 This is used for mirorring a directory structure, whithout tracking every file
 in the directory. You can selectevely make the directories.
 
-'%' prefixes work in recursively. Inside mirrored folders, no prefix _ is
+'%' prefixes work recursively. Inside mirrored folders, no prefix _ is
 necessary for symlinking files. All child files and folders, except those prefixed by
 %, are symlinked.
 
@@ -45,4 +45,4 @@ Windows 10 Creators Update and later, with the right options).
 Todo
 ------
 * Support for ~\Config\ new style of configuration files.
-* ...
+* Ignoring for a specific system?
