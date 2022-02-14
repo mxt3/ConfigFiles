@@ -17,7 +17,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let vundle manage vundle, required
-Plugin 'vundlevim/vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " the following are examples of different formats supported.
 " keep plugin commands between vundle#begin/end.
@@ -28,16 +28,19 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'l9'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'dawikur/base16-vim-airline-themes'
+" Plugin 'dawikur/base16-vim-airline-themes'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'sonph/onehalf', {'rtp': 'vim'}
+" Plugin 'nanotech/jellybeans.vim'
 "Plugin 'altercation/vim-colors-solarized'
 " Plugin 'valloric/youcompleteme'
-Plugin 'chriskempson/base16-vim'
+" Plugin 'fnune/base16-vim'
 "Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-repeat' " support dot-operator for vim-surround and others
 Plugin 'tpope/vim-surround' " surround words with delimiters easiliy
 Plugin 'tpope/vim-commentary' "pluging for easy commenting lines
 "Plugin 'raimondi/delimitmate'
-Plugin 'christoomey/vim-system-copy' "use cp{motion} to copy from vim to system clipboard instead of doublequote+y{motion}
+" Plugin 'christoomey/vim-system-copy' "use cp{motion} to copy from vim to system clipboard instead of doublequote+y{motion}
 "custom text object for selection
 Plugin 'kana/vim-textobj-user'
 "this plugin uses it for
@@ -53,6 +56,7 @@ Plugin 'tpope/vim-vinegar'
 Plugin 'moll/vim-bbye'
 
 "Syntax/language stuff
+"Better syntax highlighting of cpp
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
 "fuzzy finders
@@ -61,30 +65,33 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
-
+"Simple buffer managment. Command :BufExplorer
 Plugin 'jlanzarotta/bufexplorer'
 
-if executable('fd')
-	"use a fast external lister to improve speed of ctrlp:
-	"(from
-	"https://bluz71.github.io/2017/10/26/turbocharge-the-ctrlp-vim-plugin.html)
-	let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
-	"turn of caching with this fast lister
-	let g:ctrlp_use_caching = 0
-endif
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
+"if executable('fd')
+"	"use a fast external lister to improve speed of ctrlp:
+"	"(from
+"	"https://bluz71.github.io/2017/10/26/turbocharge-the-ctrlp-vim-plugin.html)
+"	let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
+"	"turn of caching with this fast lister
+"	let g:ctrlp_use_caching = 0
+"endif
+"let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 
 "fzf: needs binary on path and plugin asside from this one
 " Plugin 'junegunn/fzf.vim'
 
 "async syntastic: ale
-Plugin 'w0rp/ale'
+Plugin 'dense-analysis/ale'
 
-Plugin 'rhysd/vim-grammarous'
+" Plugin 'rhysd/vim-grammarous'
 
 " Plugin 'ayu-theme/ayu-vim'
 " Plugin 'rakr/vim-one'
 Plugin 'reedes/vim-colors-pencil'
+
+" A start screen for VIM
+Plugin 'mhinz/vim-startify'
 
 " all of your plugins must be added before the following line
 call vundle#end()            " required
@@ -137,6 +144,8 @@ if has('win32') || has('win64')
 	"scroll (split)window under cursor, even if it has no focus
 	set scrollfocus
 endif
+"Always have 3 lines below/above cursor
+set scrolloff=3
 
 " -------------------------
 " Search settings, see help
@@ -149,10 +158,10 @@ set hls
 " -----------------
 " Vim completion behavior
 " -----------------
-"Do not instert text when pressing the completetion key (noinstert), so we can
+"Do not instert text when pressing the completetion key (noinsert), so we can
 "type further to narrow down the completetion menu
 "NOTE: the option 'longest' is not compatible with youcompleteme
-set completeopt=menuone,preview,noinsert,longest
+set completeopt=menuone,preview,noinsert
 
 " -----------------
 " Folding options
@@ -283,37 +292,20 @@ set listchars=eol:¬,tab:»\
 "prevent enabling for every file
 "Add if needed, done to ensure perf. at startup
 "Default value: { '*': 1 } --> every file
-let g:ycm_filetype_whitelist = {'cpp': 1, 'python': 1, 'c': 1,
-								\'cs': 1, 'javascript': 1, 'go': 1,
-								\'rust': 1, 'java': 1,}
-"prevent autocompletion for identifier based (which I find infers with the use
-"of the tab key. The autocompletion after '->' or '.' remains. You can always
-"call autocomplete by Ctrl+space
-let g:ycm_min_num_of_chars_for_completion = 99
+"let g:ycm_filetype_whitelist = {'cpp': 1, 'python': 1, 'c': 1,
+"								\'cs': 1, 'javascript': 1, 'go': 1,
+"								\'rust': 1, 'java': 1,}
+""prevent autocompletion for identifier based (which I find infers with the use
+""of the tab key. The autocompletion after '->' or '.' remains. You can always
+""call autocomplete by Ctrl+space
+"let g:ycm_min_num_of_chars_for_completion = 99
 
-"default extra_conf for cpp completion
-let g:ycm_global_ycm_extra_conf = '~\.vim\global.ycm_extra_conf.py'
+""default extra_conf for cpp completion
+"let g:ycm_global_ycm_extra_conf = '~\.vim\global.ycm_extra_conf.py'
 
-"Hide the preview automatically
-let g:ycm_autoclose_preview_window_after_completion=1
+""Hide the preview automatically
+"let g:ycm_autoclose_preview_window_after_completion=1
 
-"--------------------------------
-" A.L.E. Config
-"--------------------------------
-"Using it only for linting and fixing at the moment
-
-" Define fixers for using :ALEFix, todo for each filetype
-let g:ale_fixers = {
-			\ 'python': ['autopep8', 'remove_trailing_lines'],
-			\ }
-
-"set ale flake8 errors into warnings, as this are all styel guide things
-let g:ale_type_map = {'flake8': {'ES': 'WS', 'E': 'W'}}
-"let g:ale_type_map.new_entry = bla
-
-"enabled linters: this is merged with a default dic for
-"unset filetypes
-"let g:ale_linters = { 'python': [ 'pylint'] }
 
 "--------------------------------
 " Airline config
@@ -433,7 +425,7 @@ syntax on
 let g:netrw_fastbrowse=0
 
 " Plugin settings {{{1
-" ------------------------------
+" =========================
 "
 " fzf and fzf.vim 
 " ----------------
@@ -460,3 +452,74 @@ endif
 command! -bang FilesPreview call fzf#run(fzf#wrap({
 			\ 'window': { 'width': 0.9, 'height': 0.7 },
 			\ 'options': '--preview "' . fzf_preview_cmd . ' {}"' }, <bang>0 ))
+
+" vim-startify
+" ----------------
+"  A start screen and session manager for Vim
+"  Shows sessions and MRU files as start screen
+"  Also Does session managment: wrap around :mksession
+"  If sessions management is not sufficient, vim-obssession and vim-prosession
+"  are also an option
+
+" configure vim :mksession
+" compared to default: remove 'options' and add skiprtp
+" see 
+set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,terminal,skiprtp,resize
+
+"I also use .vim on windows
+let g:startify_session_dir = '~/.vim/session'
+
+"header config
+let g:startify_custom_header=startify#center(['VIM Start'])
+"show 8 files per section
+let g:startify_files_number=8
+"show env variables to shorten paths: ugly on windows
+" let g:startify_use_env=1
+"change dir to the file openend
+let g:startify_change_to_dir=1
+"take a git dir to be the project root: slow on windows
+" let g:startify_change_to_vcs_root=1
+
+
+" auto save sessions
+let g:startify_session_persistence=1
+" auto load when starting vim in a directory containing a session.vim file
+let g:startify_session_autoload=1
+" sort session on start screen by modification time
+let g:startify_session_sort=1
+" show max 5 sessions on start
+let g:startify_session_sort=5
+
+"--------------------------------
+" A.L.E. Config
+"--------------------------------
+"Ansync LSP client.
+
+"Use airline status info
+let g:airline#extensions#ale#enabled=1
+
+
+" Define fixers for using :ALEFix, todo for each filetype
+let g:ale_fixers = {
+			\ 'python': ['autopep8', 'remove_trailing_lines'],
+			\ }
+
+"set ale flake8 errors into warnings, as this are all styel guide things
+let g:ale_type_map = {'flake8': {'ES': 'WS', 'E': 'W'}}
+"let g:ale_type_map.new_entry = bla
+
+"enabled linters: this is merged with a default dic for
+"unset filetypes
+let g:ale_linters = { 'python': [ 'pylint'], 'cpp' : [ 'clangd'], }
+
+"Dry run make -n to extract compilation info for c/cpp
+"Can run arbitrary code ...
+" let g:ale_c_parse_makefile=1
+
+"Make ALE also look for compile_commands.json in same folder as .c(pp)
+"instead of only in a 'bin' of 'build' subfolder
+let g:ale_c_build_dir_names=['bin', 'build', '.']
+
+" ALE will provide omnicompletion 
+" NOTE: there is also automatic completion by ALE
+set omnifunc=ale#completion#OmniFunc

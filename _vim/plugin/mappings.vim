@@ -42,11 +42,17 @@ noremap <silent> <Leader>p :call ProjectExplNetrw()<CR>
 " ALE Linting + LSP client
 " -----------------------
 
+"gD jumpt to first occurence in file. Like *, but start at line 1.
+"Remapping at almost no cost: *ggn works as well
+nmap gD <Plug>(ale_go_to_definition)
+"Note, there is also the built-in gd: which searches in a scoped way for 
+"first occurence. See :help gd. Useful if ALE is not available.
+
 " buffer managment (Bbye)
 " -----------------------
 "
 "map ALE Fix
-nnoremap <leader>f :ALEFix<CR>
+" nnoremap <leader>f :ALEFix<CR>
 
 "map Bbye to close buffers without closing the window
 noremap <silent> <Leader>q :Bdelete<CR>
