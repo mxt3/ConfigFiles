@@ -1,0 +1,11 @@
+# Vim config folder
+bundle/*
+viewdir/
+.netrwhist
+
+#Vundle should be included
+#it is declared as submodule
+!bundle/Vundle.vim/
+
+# ignore personal wordlist spell check
+spell/

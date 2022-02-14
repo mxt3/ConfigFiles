@@ -1,8 +1,3 @@
-# Vim config folder
-_vim/bundle/*
-_vim/viewdir/
-_vim/.netrwhist
-
 #to prevent backup of vim folder at esat
 _vim/nsr.skip
 

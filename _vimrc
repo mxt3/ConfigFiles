@@ -1,6 +1,9 @@
-"Add .vim and other unix like to runtimepath on windows so .vim files 
-"from there are recognized
-let &runtimepath.=",$HOME/.vim,$HOME/.vim/after"   
+
+if has('win32') || has('win64')
+	"Add .vim and other unix like to runtimepath on windows so .vim files
+	"from there are recognized
+	let &runtimepath.=",$HOME/.vim,$HOME/.vim/after"
+endif
 
 " -------------------------
 " vundle setup and plugins
@@ -93,31 +96,20 @@ Plugin 'reedes/vim-colors-pencil'
 " A start screen for VIM
 Plugin 'mhinz/vim-startify'
 
+" aliases in the command line
+Plugin 'Konfekt/vim-alias'
+
 " all of your plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on    " required
+filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
 " to ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" brief help
-" :pluginlist       - lists configured plugins
-" :plugininstall    - installs plugins; append `!` to update or just :pluginupdate " :pluginsearch foo - searches for foo; append `!` to refresh local cache
-" :pluginclean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for faq
-" put your non-plugin stuff after this line
-
 " end vundle
 
 " -------------------------
 " Misc native vim settings
 " -------------------------
-
-"Start in Home directory (and not program files on windows)
-"Much better is to set the working directotory through the shortcut
-"becasue that way the working directory is the same as the in the
-"terminal where you invoke vim
-"cd ~
 
 "Set line numbers on by default
 set nu
@@ -139,13 +131,16 @@ set hidden
 "verison). Use :X to save with encryption, see :help encryption
 set cm=blowfish2
 
-
 if has('win32') || has('win64')
 	"scroll (split)window under cursor, even if it has no focus
 	set scrollfocus
 endif
 "Always have 3 lines below/above cursor
 set scrolloff=3
+
+"Enable mouse in the terminal. Putty and xterm-(compatible) terminals support
+"this
+set mouse=a
 
 " -------------------------
 " Search settings, see help
@@ -162,6 +157,9 @@ set hls
 "type further to narrow down the completetion menu
 "NOTE: the option 'longest' is not compatible with youcompleteme
 set completeopt=menuone,preview,noinsert
+" Make pressing space accepting suggestion: Control - Y(es) = accept
+inoremap <expr> <Space> pumvisible() ? "\<C-y>" : "\<Space>"
+" Tab and shift tap scroll due to youcompleteme
 
 " -----------------
 " Folding options
@@ -185,6 +183,10 @@ set softtabstop=4
 set shiftwidth=4
 "Do not replace tabs by space (default behaviour)
 set noexpandtab
+
+"Continue indentation automatically globally (does not interfere with filetype
+"indentation)
+set autoindent
 
 " from http://vimcasts.org/episodes/tabs-and-spaces/
 " Set tabstop, softtabstop and shiftwidth to the same value
@@ -216,14 +218,8 @@ function! SummarizeTabs()
 endfunction
 
 
-"Continue indentation automatically globally (does not interfere with filetype
-"indentation)
-set autoindent
-
-if has("autocmd") "if vim is compiled wiht autocmd option
+if has("autocmd") "if vim is compiled with autocmd option
   " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent on
 endif
@@ -396,6 +392,12 @@ endfunction
 " Hint: easy access to netrw by pressing '-' in any buffer
 autocmd FileType netrw setl bufhidden=wipe
 
+"--------------------------------
+" Vim Alias Plugin Aliases
+"--------------------------------
+
+" See ~/.vim/after/plugin/alias.vim
+
 
 "--------------------------------
 " Aesthetics
@@ -423,6 +425,31 @@ syntax on
 "Fix netrw leaving buffers open after closing it (with e.g Ctrl-^)
 " autocmd FileType netrw setl bufhidden=delete
 let g:netrw_fastbrowse=0
+
+"--------------------------------
+" Functions for misc utility
+"--------------------------------
+"TODO: move to somewhere else??
+
+" redirect the output of a Vim or external command into a scratch buffer
+" From : https://vi.stackexchange.com/questions/8378/dump-the-output-of-internal-vim-command-into-buffer
+" Works well with ex commands. E.g. :Redir g/String/p
+" akin to built-in redir (saves to register)
+function! Redir(cmd)
+  if a:cmd =~ '^!'
+    execute "let output = system('" . substitute(a:cmd, '^!', '', '') . "')"
+  else
+    redir => output
+    execute a:cmd
+    redir END
+  endif
+  new " Present new buffers is split window
+  setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+  call setline(1, split(output, "\n"))
+  put! = a:cmd
+  put = '----'
+endfunction
+command! -nargs=1 Redir silent call Redir(<f-args>)
 
 " Plugin settings {{{1
 " =========================
@@ -523,3 +550,4 @@ let g:ale_c_build_dir_names=['bin', 'build', '.']
 " ALE will provide omnicompletion 
 " NOTE: there is also automatic completion by ALE
 set omnifunc=ale#completion#OmniFunc
+

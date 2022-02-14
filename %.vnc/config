@@ -12,7 +12,9 @@
 
 
 # name=ESAT_VNC
-# we prefer tlsvnc, but not al clients support this
-securitytypes=tlsvnc,vncauth
+# we prefer x509vnc, as it offers server identification in addition
+# to the typical tls encryption. However, not all clients support this.
+# vncauth offers no encryption at all, only to be used over ssh.
+securitytypes=x509vnc,tlsvnc,vncauth
 geometry=1920x1080
 

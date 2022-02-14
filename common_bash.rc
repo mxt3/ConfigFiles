@@ -21,6 +21,9 @@ alias ipy3pl='ipython3 --pylab'
 alias ipy2pl='ipython2 --pylab'
 alias ipypl='ipy3pl'
 
+# open file explorer in current dir
+alias explore='nautilus . &> /dev/null &'
+
 #--------------------
 # Nice Prompt
 #--------------------
@@ -34,3 +37,29 @@ source ~/ConfigFiles/setMyPrompt.sh
 # i == ignore case when no case in search query
 # R == pass escape characters, so terminal can interpret (e.g. git diff)
 export LESS='iR'
+
+
+#----------------------------------------
+# Make sure vte.sh is sourced
+#----------------------------------------
+# This remembers the cd directory when opening
+# a second tab (and more?)
+# vte.sh does this by modifying $PROMPT_COMMAND.
+# create a wrapper to preserve current $PROMPT_COMMAND
+
+__prompt_command_wrap() {
+	__vte_prompt_command
+	my_prompt_command_func
+}
+
+if [ -f /etc/profile.d/vte.sh ] ; then
+	# this modifies $PROMPT_COMMAND:
+	source /etc/profile.d/vte.sh
+
+	# the script above may not load vte prompt command
+	# if the terminal is not vte compatible
+	type_res="$( type -t __vte_prompt_command)"
+	if [[ -n $type_res ]] && [[ $type_res = function ]] ; then
+		export PROMPT_COMMAND=__prompt_command_wrap
+	fi
+fi
