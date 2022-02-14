@@ -84,8 +84,10 @@ Plugin 'jlanzarotta/bufexplorer'
 "fzf: needs binary on path and plugin asside from this one
 " Plugin 'junegunn/fzf.vim'
 
-"async syntastic: ale
-Plugin 'dense-analysis/ale'
+if v:version >= 800
+	"async syntastic: ale
+	Plugin 'dense-analysis/ale'
+endif
 
 " Plugin 'rhysd/vim-grammarous'
 
@@ -491,7 +493,11 @@ command! -bang FilesPreview call fzf#run(fzf#wrap({
 " configure vim :mksession
 " compared to default: remove 'options' and add skiprtp
 " see 
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,terminal,skiprtp,resize
+if v:version >= 800 && has('mksession')
+	set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,terminal,skiprtp,resize
+else
+	set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,resize
+endif
 
 "I also use .vim on windows
 let g:startify_session_dir = '~/.vim/session'
@@ -517,6 +523,8 @@ let g:startify_session_sort=1
 " show max 5 sessions on start
 let g:startify_session_sort=5
 
+
+if v:version >= 800
 "--------------------------------
 " A.L.E. Config
 "--------------------------------
@@ -551,3 +559,4 @@ let g:ale_c_build_dir_names=['bin', 'build', '.']
 " NOTE: there is also automatic completion by ALE
 set omnifunc=ale#completion#OmniFunc
 
+endif
