@@ -18,32 +18,15 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where vundle should install plugins
 "call vundle#begin('~/some/path/here')
+" keep plugin commands between vundle#begin/end.
 
 " let vundle manage vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" the following are examples of different formats supported.
-" keep plugin commands between vundle#begin/end.
-
-" my plugins
-"------------
-Plugin 'tpope/vim-fugitive'
-Plugin 'l9'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'dawikur/base16-vim-airline-themes'
-" Plugin 'morhetz/gruvbox'
-" Plugin 'sonph/onehalf', {'rtp': 'vim'}
-" Plugin 'nanotech/jellybeans.vim'
-"Plugin 'altercation/vim-colors-solarized'
-" Plugin 'valloric/youcompleteme'
-" Plugin 'fnune/base16-vim'
-"Plugin 'vim-syntastic/syntastic'
+"Basic text editing enchancements
 Plugin 'tpope/vim-repeat' " support dot-operator for vim-surround and others
 Plugin 'tpope/vim-surround' " surround words with delimiters easiliy
 Plugin 'tpope/vim-commentary' "pluging for easy commenting lines
-"Plugin 'raimondi/delimitmate'
-" Plugin 'christoomey/vim-system-copy' "use cp{motion} to copy from vim to system clipboard instead of doublequote+y{motion}
 "custom text object for selection
 Plugin 'kana/vim-textobj-user'
 "this plugin uses it for
@@ -55,21 +38,30 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'majutsushi/tagbar'
 "some sensible upgrades and settings for netrw
 Plugin 'tpope/vim-vinegar'
+
+"Better Git experience
+Plugin 'tpope/vim-fugitive'
+
 " by buffer : replacement for bclose
 Plugin 'moll/vim-bbye'
+"Simple buffer managment. Command :BufExplorer
+Plugin 'jlanzarotta/bufexplorer'
 
 "Syntax/language stuff
 "Better syntax highlighting of cpp
 Plugin 'octol/vim-cpp-enhanced-highlight'
+if v:version >= 800
+	"async syntastic: ale
+	Plugin 'dense-analysis/ale'
+endif
+"Plugin 'vim-syntastic/syntastic'
+
 
 "fuzzy finders
 " Plugin 'ctrlpvim/ctrlp.vim'	"Not async
 " Plugin 'Yggdroot/LeaderF'		"Intially slow
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-
-"Simple buffer managment. Command :BufExplorer
-Plugin 'jlanzarotta/bufexplorer'
 
 "if executable('fd')
 "	"use a fast external lister to improve speed of ctrlp:
@@ -81,33 +73,28 @@ Plugin 'jlanzarotta/bufexplorer'
 "endif
 "let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 
-"fzf: needs binary on path and plugin asside from this one
-" Plugin 'junegunn/fzf.vim'
-
-if v:version >= 800
-	"async syntastic: ale
-	Plugin 'dense-analysis/ale'
-endif
-
-" Plugin 'rhysd/vim-grammarous'
-
+" Themes
 " Plugin 'ayu-theme/ayu-vim'
 " Plugin 'rakr/vim-one'
 Plugin 'reedes/vim-colors-pencil'
+" Plugin 'dawikur/base16-vim-airline-themes'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'sonph/onehalf', {'rtp': 'vim'}
+" Plugin 'nanotech/jellybeans.vim'
+"Plugin 'altercation/vim-colors-solarized'
+" Plugin 'fnune/base16-vim'
 
+" UI enhancements
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " A start screen for VIM
 Plugin 'mhinz/vim-startify'
 
 " aliases in the command line
 Plugin 'Konfekt/vim-alias'
 
-" all of your plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
-" to ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" end vundle
 
 " -------------------------
 " Misc native vim settings
