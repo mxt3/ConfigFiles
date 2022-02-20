@@ -14,6 +14,18 @@ PS1_ENABLE_ERROR_CODE=1 # Show error code on command line if any
 PS1_ENABLE_BG_BLOCK=1	# block for viewing jobs, tmux, screen sessions ...	
 PS1_ENABLE_GIT_BLOCK=1	# git branch info using __git_ps1
 PS1_ENABLE_TERM_TITLE=1	# Enable Display of current dir and jobs in title
+PS1_ENABLE_PATH_ABBRV=1 # Enable abbreviating the working directory if it 
+						# does not fit on the current line
+
+# Abbreviate dir names longer than this:
+PATH_ABBR_THRSHLD=4
+# Indicator that the path has been abbreviated
+# (avoid confusion if abbreviated dir has same name as existing one) 
+PATH_ABBR_IND='~'
+# If working dir path becomes longer than ($COLUMNS - $PATH_ABBR_MARGIN),
+# then abbreviate
+# TODO: better to just construct the string, and then check and redo?
+PATH_ABBR_MARGIN=45
 
 # Separator
 SEP='-'
@@ -144,7 +156,7 @@ function is_ssh_session()
 	fi
 }
 
-# Promt block generator functions
+# Prompt block generator functions
 # ----------------------------------------
 
 # to generate the background block
@@ -249,10 +261,19 @@ function my_prompt_command_func()
 	fi
 
 	# Add working directory
+	PS1_STATIC_BLOCK+=" ${YELLOW}"
 	if [[ -n $PS1_ENABLE_LONG_DIR ]] ; then
-		PS1_STATIC_BLOCK+=" ${YELLOW}\\w"
+		local max_length=$(expr $COLUMNS - $PATH_ABBR_MARGIN)
+		if [[ -n $PS1_ENABLE_PATH_ABBRV && (( $(expr length $(dirs -0)) -gt $max_length )) ]]; then
+			# abbreviated path
+			PS1_STATIC_BLOCK+="$(dirs -0| sed -r "s|/([^/]{$PATH_ABBR_THRSHLD})[^/]+|/\1${PATH_ABBR_IND}|g")"
+		else
+			# full path
+			PS1_STATIC_BLOCK+="\\w"
+		fi
 	else
-		PS1_STATIC_BLOCK+=" ${YELLOW}\\W"
+			# only current dir
+			PS1_STATIC_BLOCK+="\\W"
 	fi
 	PS1_STATIC_BLOCK+="${DEFAULT}${BR_C}"
 	local PS1_PREFIX_GIT=$PS1_STATIC_BLOCK
