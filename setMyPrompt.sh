@@ -196,7 +196,7 @@ function gen_str_bg_block()
 # Let this string be appended to PS1
 function gen_title_str()
 {
-	local TITLE_STR="\[\e]0;\W\\ - bash"	
+	local TITLE_STR="\[\e]0;\W/"	
 	detect_jobs PS1_CNT_JOB PS1_JOB_NAME
 	if [[ $PS1_CNT_JOB -gt 0 ]]; then
 		if [[ $PS1_CNT_JOB -gt 1 ]]; then
