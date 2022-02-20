@@ -34,6 +34,11 @@ Plugin 'kana/vim-textobj-indent'
 "sneak motion: basically f-motion but with two letters
 Plugin 'justinmk/vim-sneak'
 
+"Snippet Manager
+Plugin 'SirVer/ultisnips'
+"Snippet Library
+Plugin 'honza/vim-snippets'
+
 "nice tagbar
 Plugin 'majutsushi/tagbar'
 "some sensible upgrades and settings for netrw
@@ -547,3 +552,22 @@ let g:ale_c_build_dir_names=['bin', 'build', '.']
 set omnifunc=ale#completion#OmniFunc
 
 endif
+
+"--------------------------------
+" Ultisnips
+"--------------------------------
+"Snippet manager
+"See bottom of https://github.com/SirVer/ultisnips/blob/master/README.md
+"for excellent screencasts
+
+"Deliberate snippet expansion: prevent unwanted replacement of tab character
+"Note: many terminals capture ctrl+tab already for something
+let g:UltiSnipsExpandTrigger="<c-tab>"
+"Ultisnips by default already uses ctrl+tab command for listing all possible
+"snippets, and this overrules. Choose another for the list 
+let g:UltiSnipsListSnippets="<s-tab>"
+
+"In visual mode, I find tab is enough to delete the selected test and dump 
+"it into the visual placeholder
+xn <tab> :call UltiSnips#SaveLastVisualSelection()<CR>gvs
+
