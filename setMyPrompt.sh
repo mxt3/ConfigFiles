@@ -263,7 +263,7 @@ function my_prompt_command_func()
 	# Add working directory
 	PS1_STATIC_BLOCK+=" ${YELLOW}"
 	if [[ -n $PS1_ENABLE_LONG_DIR ]] ; then
-		local max_length=$(expr $COLUMNS - $PATH_ABBR_MARGIN)
+		local max_length=$(expr "$COLUMNS - $PATH_ABBR_MARGIN")
 		if [[ -n $PS1_ENABLE_PATH_ABBRV && (( $(expr length "$(dirs -0)") -gt $max_length )) ]]; then
 			# abbreviated path
 			PS1_STATIC_BLOCK+="$(dirs -0| sed -r "s|/([^/]{$PATH_ABBR_THRSHLD})[^/]+|/\1${PATH_ABBR_IND}|g")"
