@@ -52,12 +52,17 @@ Plugin 'moll/vim-bbye'
 "Simple buffer managment. Command :BufExplorer
 Plugin 'jlanzarotta/bufexplorer'
 
-"Syntax/language stuff
+"Specific language support stuff
 "Better syntax highlighting of cpp
 Plugin 'octol/vim-cpp-enhanced-highlight'
 if v:version >= 800
 	"async syntastic: ale
 	Plugin 'dense-analysis/ale'
+"Better  (system)verilog syntax highighting, folding, error format support,
+"omni completion from tags, tagbar support etc.
+Plugin 'vhda/verilog_systemverilog.vim'
+"see (system)verilog fplugin for options, as this is very file specific
+
 endif
 "Plugin 'vim-syntastic/syntastic'
 
