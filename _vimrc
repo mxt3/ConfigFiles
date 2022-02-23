@@ -195,6 +195,11 @@ set noexpandtab
 "indentation)
 set autoindent
 
+"Continue indentation on linewrap
+set breakindent
+"Indicate this with following character
+set showbreak=└
+
 " from http://vimcasts.org/episodes/tabs-and-spaces/
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
