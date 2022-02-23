@@ -55,12 +55,17 @@ Plugin 'moll/vim-bbye'
 "Simple buffer managment. Command :BufExplorer
 Plugin 'jlanzarotta/bufexplorer'
 
-"Syntax/language stuff
+"Specific language support stuff
 "Better syntax highlighting of cpp
 Plugin 'octol/vim-cpp-enhanced-highlight'
 if v:version >= 800
 	"async syntastic: ale
 	Plugin 'dense-analysis/ale'
+"Better  (system)verilog syntax highighting, folding, error format support,
+"omni completion from tags, tagbar support etc.
+Plugin 'vhda/verilog_systemverilog.vim'
+"see (system)verilog fplugin for options, as this is very file specific
+
 endif
 "Plugin 'vim-syntastic/syntastic'
 
@@ -103,6 +108,14 @@ Plugin 'Konfekt/vim-alias'
 
 call vundle#end()            " required
 filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
+
+" Native vim package manager
+" (useful for built-in packages)
+if v:version >= 800 && has('eval')
+	packadd! matchit
+else
+	runtime macros/matchit.vim
+end
 
 " -------------------------
 " Misc native vim settings
@@ -184,6 +197,11 @@ set noexpandtab
 "Continue indentation automatically globally (does not interfere with filetype
 "indentation)
 set autoindent
+
+"Continue indentation on linewrap
+set breakindent
+"Indicate this with following character
+set showbreak=└
 
 " from http://vimcasts.org/episodes/tabs-and-spaces/
 " Set tabstop, softtabstop and shiftwidth to the same value

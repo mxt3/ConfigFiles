@@ -14,6 +14,18 @@ PS1_ENABLE_ERROR_CODE=1 # Show error code on command line if any
 PS1_ENABLE_BG_BLOCK=1	# block for viewing jobs, tmux, screen sessions ...	
 PS1_ENABLE_GIT_BLOCK=1	# git branch info using __git_ps1
 PS1_ENABLE_TERM_TITLE=1	# Enable Display of current dir and jobs in title
+PS1_ENABLE_PATH_ABBRV=1 # Enable abbreviating the working directory if it 
+						# does not fit on the current line
+
+# Abbreviate dir names longer than this:
+PATH_ABBR_THRSHLD=4
+# Indicator that the path has been abbreviated
+# (avoid confusion if abbreviated dir has same name as existing one) 
+PATH_ABBR_IND='~'
+# If working dir path becomes longer than ($COLUMNS - $PATH_ABBR_MARGIN),
+# then abbreviate
+# TODO: better to just construct the string, and then check and redo?
+PATH_ABBR_MARGIN=45
 
 # Separator
 SEP='-'
@@ -52,7 +64,7 @@ LIGHTCYAN='\[\e[96m\]'
 WHITE='\[\e[97m\]'
 
 # --------------------------------------------------
-#  Git PS1 options, see git-promt.sh for details
+#  Git PS1 options, see git-prompt.sh for details
 # --------------------------------------------------
 
 # __git_ps1 function always shows branch name if in git dir
@@ -60,7 +72,7 @@ export GIT_PS1_SHOWDIRTYSTATE=true		# show * and + next to branch name for
 										# respectively unstaged and staged files
 export GIT_PS1_SHOWSTASHSTATE=true		# show $ to indicate stashed stuff
 export GIT_PS1_SHOWUNTRACKEDFILES=true	# show % for untracked files
-export GIT_PS1_SHOWUPSTREAM=true		# show < > or <> to indictate relation:
+export GIT_PS1_SHOWUPSTREAM=true		# show < > or <> to indicate relation:
 										# local [sign] upstream
 export GIT_PS1_SHOWCOLORHINTS=true		# hints about dirty state in color!
 
@@ -77,7 +89,7 @@ function detect_jobs()
 	local __resultvar1=$1
 	local __resultvar2=$2
 
-	local BG_RUNNING_COUNT=$(jobs -r | wc -l)	# r restircts to running jobs, see help jobs
+	local BG_RUNNING_COUNT=$(jobs -r | wc -l)	# r restricts to running jobs, see help jobs
 
 	# if only one task, also set the name
 	if [[ $BG_RUNNING_COUNT == 1 ]]; then
@@ -94,7 +106,7 @@ function detect_jobs()
 		local BG_JOB_NAME=''
 	fi
 	
-	# set the argumetns to return results
+	# set the arguments to return results
 	eval $__resultvar1="'$BG_RUNNING_COUNT'"
 	eval $__resultvar2="'$BG_JOB_NAME'"
 }
@@ -118,7 +130,7 @@ function detect_term_mux()
 	hash screen 2>/dev/null || haveSCREEN=0
 	
 	if [[ $haveTMUX -eq 1 ]]; then
-		# grep -c: counts matching linex; -v: invert, so ignore lines containing
+		# grep -c: counts matching line; -v: invert, so ignore lines containing
 		# attack
 		local CNT_TMUX=$(tmux ls 2> /dev/null | grep -i -c -v attach)	
 	else
@@ -131,7 +143,7 @@ function detect_term_mux()
 		local CNT_SCREEN=0
 	fi
 
-	# set the argumetns to return results
+	# set the arguments to return results
 	eval $__resultvar1="'$CNT_TMUX'"
 	eval $__resultvar2="'$CNT_SCREEN'"
 }
@@ -144,11 +156,11 @@ function is_ssh_session()
 	fi
 }
 
-# Promt block generator functions
+# Prompt block generator functions
 # ----------------------------------------
 
 # to generate the background block
-# separtors not included, delimiters are
+# separators not included, delimiters are
 function gen_str_bg_block()
 {
 	detect_jobs PS1_CNT_JOB PS1_JOB_NAME
@@ -156,7 +168,7 @@ function gen_str_bg_block()
 	local BG_STR="${BR_O}"
 	local ADD_SPACE=''
 
-	# return immeadiately if block is empty
+	# return immediately if block is empty
 	if ! ([[ $PS1_CNT_SCREEN -gt 0 ]] || [[ $PS1_CNT_TMUX -gt 0 ]] ||\
 		[[ $PS1_CNT_JOB -gt 0 ]]); then
 		return
@@ -196,7 +208,7 @@ function gen_str_bg_block()
 # Let this string be appended to PS1
 function gen_title_str()
 {
-	local TITLE_STR="\[\e]0;\W\\ - bash"	
+	local TITLE_STR="\[\e]0;\W/"	
 	detect_jobs PS1_CNT_JOB PS1_JOB_NAME
 	if [[ $PS1_CNT_JOB -gt 0 ]]; then
 		if [[ $PS1_CNT_JOB -gt 1 ]]; then
@@ -213,7 +225,7 @@ function gen_title_str()
 	echo -n "$TITLE_STR"
 }
 
-# Shows error code and changes the prompt sign color when exitcode != 0
+# Shows error code and changes the prompt sign color when exit code != 0
 # Takes one argument, the error code
 function gen_error_ind_prompt_sign()
 {
@@ -229,7 +241,7 @@ function gen_error_ind_prompt_sign()
 # Applying it
 # ----------------------------------------
 
-# the funtion to be called every time before the prompt is drawn
+# the function to be called every time before the prompt is drawn
 function my_prompt_command_func()
 {
 	# inform of error code on prompt line
@@ -249,10 +261,19 @@ function my_prompt_command_func()
 	fi
 
 	# Add working directory
+	PS1_STATIC_BLOCK+=" ${YELLOW}"
 	if [[ -n $PS1_ENABLE_LONG_DIR ]] ; then
-		PS1_STATIC_BLOCK+=" ${YELLOW}\\w"
+		local max_length=$(expr $COLUMNS - $PATH_ABBR_MARGIN)
+		if [[ -n $PS1_ENABLE_PATH_ABBRV && (( $(expr length "$(dirs -0)") -gt $max_length )) ]]; then
+			# abbreviated path
+			PS1_STATIC_BLOCK+="$(dirs -0| sed -r "s|/([^/]{$PATH_ABBR_THRSHLD})[^/]+|/\1${PATH_ABBR_IND}|g")"
+		else
+			# full path
+			PS1_STATIC_BLOCK+="\\w"
+		fi
 	else
-		PS1_STATIC_BLOCK+=" ${YELLOW}\\W"
+			# only current dir
+			PS1_STATIC_BLOCK+="\\W"
 	fi
 	PS1_STATIC_BLOCK+="${DEFAULT}${BR_C}"
 	local PS1_PREFIX_GIT=$PS1_STATIC_BLOCK
