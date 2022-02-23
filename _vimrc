@@ -106,6 +106,14 @@ Plugin 'Konfekt/vim-alias'
 call vundle#end()            " required
 filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
 
+" Native vim package manager
+" (useful for built-in packages)
+if v:version >= 800 && has('eval')
+	packadd! matchit
+else
+	runtime macros/matchit.vim
+end
+
 " -------------------------
 " Misc native vim settings
 " -------------------------
