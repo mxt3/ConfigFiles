@@ -15,3 +15,11 @@ nnoremap <leader>i :VerilogFollowInstance<CR>
 setlocal foldmethod=syntax
 "need to set this option to enable folding for languae constructs
 let b:verilog_syntax_fold_lst="block_nested,comment,task,function"
+
+"Because the filetype is non-standard, Ultisnips does not load verilog or
+"systemverilog specific snippets. Tell Ultisnips manually to load these
+if expand("%:t") =~ "*.sv"
+	call UltiSnips#AddFiletypes('systemverilog')
+else
+	call UltiSnips#AddFiletypes('verilog')
+endif
