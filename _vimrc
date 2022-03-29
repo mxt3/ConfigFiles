@@ -18,32 +18,15 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where vundle should install plugins
 "call vundle#begin('~/some/path/here')
+" keep plugin commands between vundle#begin/end.
 
 " let vundle manage vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" the following are examples of different formats supported.
-" keep plugin commands between vundle#begin/end.
-
-" my plugins
-"------------
-Plugin 'tpope/vim-fugitive'
-Plugin 'l9'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'dawikur/base16-vim-airline-themes'
-" Plugin 'morhetz/gruvbox'
-" Plugin 'sonph/onehalf', {'rtp': 'vim'}
-" Plugin 'nanotech/jellybeans.vim'
-"Plugin 'altercation/vim-colors-solarized'
-" Plugin 'valloric/youcompleteme'
-" Plugin 'fnune/base16-vim'
-"Plugin 'vim-syntastic/syntastic'
+"Basic text editing enchancements
 Plugin 'tpope/vim-repeat' " support dot-operator for vim-surround and others
 Plugin 'tpope/vim-surround' " surround words with delimiters easiliy
 Plugin 'tpope/vim-commentary' "pluging for easy commenting lines
-"Plugin 'raimondi/delimitmate'
-" Plugin 'christoomey/vim-system-copy' "use cp{motion} to copy from vim to system clipboard instead of doublequote+y{motion}
 "custom text object for selection
 Plugin 'kana/vim-textobj-user'
 "this plugin uses it for
@@ -51,25 +34,47 @@ Plugin 'kana/vim-textobj-indent'
 "sneak motion: basically f-motion but with two letters
 Plugin 'justinmk/vim-sneak'
 
+"Useful navigational maps mapped to brackets
+Plugin 'tpope/vim-unimpaired'
+
+"Snippet Manager
+Plugin 'SirVer/ultisnips'
+"Snippet Library
+Plugin 'honza/vim-snippets'
+
 "nice tagbar
 Plugin 'majutsushi/tagbar'
 "some sensible upgrades and settings for netrw
 Plugin 'tpope/vim-vinegar'
+
+"Better Git experience
+Plugin 'tpope/vim-fugitive'
+
 " by buffer : replacement for bclose
 Plugin 'moll/vim-bbye'
+"Simple buffer managment. Command :BufExplorer
+Plugin 'jlanzarotta/bufexplorer'
 
-"Syntax/language stuff
+"Specific language support stuff
 "Better syntax highlighting of cpp
 Plugin 'octol/vim-cpp-enhanced-highlight'
+if v:version >= 800
+	"async syntastic: ale
+	Plugin 'dense-analysis/ale'
+"Better  (system)verilog syntax highighting, folding, error format support,
+"omni completion from tags, tagbar support etc.
+Plugin 'vhda/verilog_systemverilog.vim'
+"see (system)verilog fplugin for options, as this is very file specific
+
+endif
+"Plugin 'vim-syntastic/syntastic'
+
 
 "fuzzy finders
 " Plugin 'ctrlpvim/ctrlp.vim'	"Not async
 " Plugin 'Yggdroot/LeaderF'		"Intially slow
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-
-"Simple buffer managment. Command :BufExplorer
-Plugin 'jlanzarotta/bufexplorer'
 
 "if executable('fd')
 "	"use a fast external lister to improve speed of ctrlp:
@@ -81,33 +86,36 @@ Plugin 'jlanzarotta/bufexplorer'
 "endif
 "let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir' ]
 
-"fzf: needs binary on path and plugin asside from this one
-" Plugin 'junegunn/fzf.vim'
-
-if v:version >= 800
-	"async syntastic: ale
-	Plugin 'dense-analysis/ale'
-endif
-
-" Plugin 'rhysd/vim-grammarous'
-
+" Themes
 " Plugin 'ayu-theme/ayu-vim'
 " Plugin 'rakr/vim-one'
 Plugin 'reedes/vim-colors-pencil'
+" Plugin 'dawikur/base16-vim-airline-themes'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'sonph/onehalf', {'rtp': 'vim'}
+" Plugin 'nanotech/jellybeans.vim'
+"Plugin 'altercation/vim-colors-solarized'
+" Plugin 'fnune/base16-vim'
 
+" UI enhancements
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " A start screen for VIM
 Plugin 'mhinz/vim-startify'
 
 " aliases in the command line
 Plugin 'Konfekt/vim-alias'
 
-" all of your plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required, This enable flile type plugins in the ftplugin/ folder.
-" to ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" end vundle
+
+" Native vim package manager
+" (useful for built-in packages)
+if v:version >= 800 && has('eval')
+	packadd! matchit
+else
+	runtime macros/matchit.vim
+end
 
 " -------------------------
 " Misc native vim settings
@@ -189,6 +197,11 @@ set noexpandtab
 "Continue indentation automatically globally (does not interfere with filetype
 "indentation)
 set autoindent
+
+"Continue indentation on linewrap
+set breakindent
+"Indicate this with following character
+set showbreak=└
 
 " from http://vimcasts.org/episodes/tabs-and-spaces/
 " Set tabstop, softtabstop and shiftwidth to the same value
@@ -560,3 +573,22 @@ let g:ale_c_build_dir_names=['bin', 'build', '.']
 set omnifunc=ale#completion#OmniFunc
 
 endif
+
+"--------------------------------
+" Ultisnips
+"--------------------------------
+"Snippet manager
+"See bottom of https://github.com/SirVer/ultisnips/blob/master/README.md
+"for excellent screencasts
+
+"Deliberate snippet expansion: prevent unwanted replacement of tab character
+"Note: many terminals capture ctrl+tab already for something
+let g:UltiSnipsExpandTrigger="<c-tab>"
+"Ultisnips by default already uses ctrl+tab command for listing all possible
+"snippets, and this overrules. Choose another for the list 
+let g:UltiSnipsListSnippets="<s-tab>"
+
+"In visual mode, I find tab is enough to delete the selected test and dump 
+"it into the visual placeholder
+xn <tab> :call UltiSnips#SaveLastVisualSelection()<CR>gvs
+
