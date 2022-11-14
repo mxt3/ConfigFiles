@@ -1,4 +1,22 @@
-#readline config. Readline is use by bash.
+# Readline config. Readline is used by bash.
 
+set completion-ignore-case on
+
+# source system inputrc as base
 $include /etc/inputrc
-set completion-ignore-case On
+
+# you can find a list of available commands here:
+# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Command-Line-Editing
+
+# Control + BS deletes a word
+# By default, control W also does this
+"\C-H": backward-kill-word
+
+# Kill the word to the right with Control + Del
+"\e[3;5~": kill-word
+
+# Up/Down arrow goes trough command history
+# like ipython by default. The already typed command text
+# is taken as input to complete from history
+"\e[A": history-search-backward
+"\e[B": history-search-forward
