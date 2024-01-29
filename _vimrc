@@ -34,6 +34,9 @@ Plugin 'kana/vim-textobj-indent'
 "sneak motion: basically f-motion but with two letters
 Plugin 'justinmk/vim-sneak'
 
+"Auto-detect tab style (Respects modeline or .editorconfig)
+Plugin 'tpope/vim-sleuth'
+
 "Useful navigational maps mapped to brackets
 Plugin 'tpope/vim-unimpaired'
 
