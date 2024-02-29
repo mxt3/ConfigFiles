@@ -155,6 +155,9 @@ set scrolloff=3
 "this
 set mouse=a
 
+"When joining 2 commented lines, remove the comment leader
+set formatoptions+=j
+
 " -------------------------
 " Search settings, see help
 " -------------------------
