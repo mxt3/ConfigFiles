@@ -79,6 +79,8 @@ cnoremap <c-r>		History:<CR>
 " ----------------
 "Bind leader key to toggle
 nnoremap <silent> <Leader>t :TagbarToggle<CR>
+"Jump cursor to tagbar (will open if closed)
+nnoremap <silent> <Leader>T :TagbarOpen fj<CR>
 
 
 " YouCompleteMe
