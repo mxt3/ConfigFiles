@@ -25,5 +25,9 @@ colorscheme pencil
 "hide the toolbar
 set guioptions-=T 
 
+"Right-click opens popup (ALE populates this too, useful if LSP supports
+"refactoring or renaming of variables)
+set mousemodel=popup
+
 "window size
 set lines=36 columns=100
