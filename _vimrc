@@ -70,6 +70,8 @@ Plugin 'vhda/verilog_systemverilog.vim'
 "see (system)verilog fplugin for options, as this is very file specific
 
 endif
+"LEF file syntax highlight
+Plugin 'tarikgraba/vim-lefdef'
 "Plugin 'vim-syntastic/syntastic'
 
 
@@ -573,6 +575,9 @@ let g:ale_linters = { 'python': [ 'pylint'], 'cpp' : [ 'clangd'], }
 "Make ALE also look for compile_commands.json in same folder as .c(pp)
 "instead of only in a 'bin' of 'build' subfolder
 let g:ale_c_build_dir_names=['bin', 'build', '.']
+
+"Make xvlog recognize systemverilog
+let g:ale_verilog_xvlog_options='--sv'
 
 " ALE will provide omnicompletion 
 " NOTE: there is also automatic completion by ALE
