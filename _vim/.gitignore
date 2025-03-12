@@ -9,3 +9,6 @@ viewdir/
 
 # ignore personal wordlist spell check
 spell/
+
+#saved sessions
+session/*
